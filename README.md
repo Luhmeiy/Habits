@@ -4,16 +4,14 @@
 
 ---
 
-![Expo](https://img.shields.io/badge/expo-1C1E24?style=for-the-badge&logo=expo&logoColor=#D04A37)
-![Fastify](https://img.shields.io/badge/fastify-%23000000.svg?style=for-the-badge&logo=fastify&logoColor=white)
-![Prisma](https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=Prisma&logoColor=white)
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
 ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
 ![React Native](https://img.shields.io/badge/react_native-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
 ![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
-![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+![Expo](https://img.shields.io/badge/expo-1C1E24?style=for-the-badge&logo=expo&logoColor=#D04A37)
 ![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white)
-
----
+![Prisma](https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=Prisma&logoColor=white)
+![Fastify](https://img.shields.io/badge/fastify-%23000000.svg?style=for-the-badge&logo=fastify&logoColor=white)
 
 ## Table of Contents
 
@@ -21,15 +19,11 @@
 - [🎨 Layout](#🎨-layout)
 - [🛠️ Functionalities](#🛠️-functionalities)
 
----
-
 ## 📑 About
 
 This project was developed during [Next Level Week](https://lp.rocketseat.com.br/nlw), a week long event created by [Rocketseat](https://www.rocketseat.com.br/) to help developers reach new and exciting levels of development skills. NLW - Setup lasted from the 16th to the 20th of January 2023.
 
 Habits is an app / website designed for you to keep track of your tasks. It can serve as both a reminder of your daily to-dos and a motivator for you to actually do them.
-
----
 
 ## 🎨 Layout
 
@@ -43,8 +37,6 @@ This Layout was created by [Diego Fernandes](https://www.instagram.com/dieegosf/
 More information can be found at:
 
 - [Habits](https://efficient-sloth-d85.notion.site/NLW-11-Setup-4a8623c9e0bf415dbd5fdbe79f387a6e) 
-
----   
 
 ## 🛠️ Functionalities
 
