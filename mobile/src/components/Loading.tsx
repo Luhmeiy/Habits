@@ -1,3 +1,4 @@
+// React Native
 import { ActivityIndicator, View } from "react-native"
 
 const Loading = () => {

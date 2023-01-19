@@ -2,8 +2,8 @@
 import './src/lib/dayjs';
 
 // components
-import Home from './src/screens/Home';
 import Loading from './src/components/Loading';
+import Routes from './src/routes';
 
 // fonts
 import { 
@@ -31,8 +31,12 @@ const App = () => {
 
 	return (
 		<>
-			<Home />
-			<StatusBar barStyle="light-content" backgroundColor="transparent"  translucent />
+			<Routes />
+			<StatusBar
+				barStyle="light-content"
+				backgroundColor="transparent"
+				translucent
+			/>
 		</>
 	);
 }
