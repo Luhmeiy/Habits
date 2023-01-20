@@ -2,6 +2,9 @@
 import Header from './components/Header';
 import SummaryTable from './components/SummaryTable';
 
+// libraries
+import './lib/dayjs';
+
 // styles / SCSS
 import './styles/global.scss';
 
