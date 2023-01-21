@@ -5,12 +5,12 @@ import Header from '../components/Header';
 import Loading from '../components/Loading';
 
 // libraries
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import dayjs from 'dayjs';
 import { api } from '../lib/axios';
 
 // React / React Native
-import { useState, useEffect } from 'react';
+import { useCallback, useState } from 'react';
 import { Alert, View, Text, ScrollView } from 'react-native';
 
 const weekDays = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
@@ -45,9 +45,9 @@ const Home = () => {
 		}
 	}
 
-	useEffect(() => {
+	useFocusEffect(useCallback(() => {
 		fetchData();
-	}, []);
+	}, []));
 
 	if (loading) {
 		return (
