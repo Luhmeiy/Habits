@@ -15,11 +15,11 @@
 
 ## Table of Contents
 
-- [📑 About](#📑-about)
-- [🎨 Layout](#🎨-layout)
-- [🛠️ Functionalities](#🛠️-functionalities)
-- [📚 What I Learned](#📚-What-I-Learned)
-- [🔍 What I Did Different](#🔍-What-I-Did-Different)
+- [📑 About](#-about)
+- [🎨 Layout](#-layout)
+- [🛠️ Functionalities](#%EF%B8%8F-functionalities)
+- [📚 What I Learned](#-what-i-learned)
+- [🔍 What I Did Different](#-what-i-did-different)
 
 ## 📑 About
 
