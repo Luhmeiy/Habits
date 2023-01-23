@@ -1,21 +1,24 @@
-// components
-import Header from './components/Header';
-import SummaryTable from './components/SummaryTable';
-
 // libraries
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './lib/dayjs';
+
+// pages
+import HabitsSummary from './pages/HabitsSummary';
+import Register from './pages/Register';
+import SignIn from './pages/SignIn';
 
 // styles / SCSS
 import './styles/global.scss';
 
 function App() {
 	return (
-		<div className="w-screen h-screen flex justify-center items-center">
-			<div className="w-full max-w-5xl px-6 flex flex-col gap-16">
-				<Header />
-				<SummaryTable />
-			</div>
-		</div>
+		<BrowserRouter>
+			<Routes>
+				<Route path="/" element={<SignIn />} />
+				<Route path="/register" element={<Register />} />
+				<Route path="/user" element={<HabitsSummary />} />
+			</Routes>
+		</BrowserRouter>
 	)
 }
 

@@ -18,6 +18,8 @@
 - [📑 About](#📑-about)
 - [🎨 Layout](#🎨-layout)
 - [🛠️ Functionalities](#🛠️-functionalities)
+- [📚 What I Learned](#📚-What-I-Learned)
+- [🔍 What I Did Different](#🔍-What-I-Did-Different)
 
 ## 📑 About
 
@@ -42,8 +44,20 @@ More information can be found at:
 
 - Add and remove tasks
 - Keep track of your tasks
+- Login with Google
 - Beautiful layout
 - Works on mobile and web
+
+## 📚 What I Learned
+
+Coming into NLW - Setup I didn't know exactly what to expect. It had been a little more than a week since I had my first contact with React and I was afraid I wouldn't be able to keep up.
+
+In the end it worked out fine. I was able to keep up with the classes with ease and learn a lot throughout. I expanded my knowledge of React, learnt a little bit of React Native and explored new technologies like Tailwind, Expo, Vite and Prisma, which will for sure be a part of my tech stack from now on.
+
+## 🔍 What I Did Different
+
+- Added login page with Google and Firebase Authentication.
+- Added routing with React Router
 
 ---
 

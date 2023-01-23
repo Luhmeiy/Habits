@@ -23,11 +23,11 @@ type Summary = {
 	completed: number;
 }[]
 
-const SummaryTable = () => {
+const SummaryTable = (userId: any) => {
 	const [summary, setSummary] = useState<Summary>([]);
 
 	useEffect(() => {
-		api.get('summary').then(res => {
+		api.get(`/summary/${userId.userId}`).then(res => {
 			setSummary(res.data);
 		})
 	}, []);
@@ -55,6 +55,7 @@ const SummaryTable = () => {
 						<HabitDay
 							key={date.toString()}
 							date={date}
+							userId={userId}
 							amount={dayInSummary?.amount}
 							defaultCompleted={dayInSummary?.completed}
 						/>

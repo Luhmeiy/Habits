@@ -24,6 +24,7 @@ async function run() {
 				id: firstHabitId,
 				title: 'Beber 2L água',
 				created_at: firstHabitCreationDate,
+				user_id: 'rtmZ3H3KFFfWfJIvUCXYgjcjcZF2',
 				weekDays: {
 					create: [
 						{ week_day: 1 },
@@ -39,6 +40,7 @@ async function run() {
 				id: secondHabitId,
 				title: 'Exercitar',
 				created_at: secondHabitCreationDate,
+				user_id: 'rtmZ3H3KFFfWfJIvUCXYgjcjcZF2',
 				weekDays: {
 					create: [
 						{ week_day: 3 },
@@ -54,14 +56,15 @@ async function run() {
 				id: thirdHabitId,
 				title: 'Dormir 8h',
 				created_at: thirdHabitCreationDate,
+				user_id: 'rtmZ3H3KFFfWfJIvUCXYgjcjcZF2',
 				weekDays: {
-				create: [
-					{ week_day: 1 },
-					{ week_day: 2 },
-					{ week_day: 3 },
-					{ week_day: 4 },
-					{ week_day: 5 },
-				]
+					create: [
+						{ week_day: 1 },
+						{ week_day: 2 },
+						{ week_day: 3 },
+						{ week_day: 4 },
+						{ week_day: 5 },
+					]
 				}
 			}
 		})
@@ -75,10 +78,11 @@ async function run() {
 			data: {
 				/** Monday */
 				date: new Date('2023-01-02T03:00:00.000z'),
+				user_id: 'rtmZ3H3KFFfWfJIvUCXYgjcjcZF2',
 				dayHabits: {
 					create: {
 						habit_id: firstHabitId,
-					}
+					},
 				}
 			}
 		}),
@@ -90,6 +94,7 @@ async function run() {
 			data: {
 				/** Friday */
 				date: new Date('2023-01-06T03:00:00.000z'),
+				user_id: 'rtmZ3H3KFFfWfJIvUCXYgjcjcZF2',
 				dayHabits: {
 					create: {
 						habit_id: firstHabitId,
@@ -105,6 +110,7 @@ async function run() {
 			data: {
 				/** Wednesday */
 				date: new Date('2023-01-04T03:00:00.000z'),
+				user_id: 'rtmZ3H3KFFfWfJIvUCXYgjcjcZF2',
 				dayHabits: {
 					create: [
 						{ habit_id: firstHabitId },

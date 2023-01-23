@@ -8,10 +8,7 @@ import * as Dialog from '@radix-ui/react-dialog';
 import { Plus, X } from 'phosphor-react';
 import logoImage from '../assets/logo.svg';
 
-// React
-import { useState } from 'react';
-
-const Header = () => {
+const Header = (userId: any) => {
 	return (
 		<div className="w-full max-w-3xl mx-auto flex items-center justify-between">
 			<img src={logoImage} alt="Habits" />
@@ -43,7 +40,7 @@ const Header = () => {
 							Criar hábito
 						</Dialog.Title>
 
-						<NewHabitForm />
+						<NewHabitForm userId={userId.userId} />
 					</Dialog.Content>
 				</Dialog.Portal>
 			</Dialog.Root>

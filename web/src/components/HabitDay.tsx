@@ -11,15 +11,16 @@ import * as Popover from '@radix-ui/react-popover';
 import { useState } from 'react';
 
 interface HabitDayProps {
-	date: Date
-	defaultCompleted?: number
-	amount?: number
+	date: Date;
+	userId: any;
+	defaultCompleted?: number;
+	amount?: number;
 }
 
-const HabitDay = ({ date, defaultCompleted = 0, amount = 0 }: HabitDayProps) => {
+const HabitDay = ({ date, userId, defaultCompleted = 0, amount = 0 }: HabitDayProps) => {
 	const [completed, setCompleted] = useState(defaultCompleted);
 
-	const completedPercentage = amount > 0 ? Math.round((completed / amount) * 100) : 0;
+	let completedPercentage = amount > 0 ? Math.round((completed / amount) * 100) : 0;
 
 	const dayAndMonth = dayjs(date).format('DD/MM');
 	const dayOfWeek = dayjs(date).format('dddd');
@@ -54,6 +55,7 @@ const HabitDay = ({ date, defaultCompleted = 0, amount = 0 }: HabitDayProps) => 
 
 					<HabitsList
 						date={date}
+						userId={userId}
 						onCompletedChanged={handleCompletedChanged}
 					/>
 	
