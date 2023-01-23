@@ -1,10 +1,16 @@
 // components / utils
+import EmptyDay from "./EmptyDay";
 import generateDatesFromYearBeginning from "../utils/generate-dates-from-year-beginning";
+import generateRestOfDates from "../utils/generate-rest-of-dates";
 import HabitDay from "./HabitDay";
+
+// interfaces
+import { IData } from "../interfaces/Data";
 
 //libraries
 import api from "../lib/axios";
 import dayjs from "dayjs";
+import { useParams } from "react-router-dom";
 
 // React
 import { useEffect, useState } from "react";
@@ -12,9 +18,7 @@ import { useEffect, useState } from "react";
 const weekDays = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
 
 const summaryDates = generateDatesFromYearBeginning();
-
-const minimumSummaryDatesSize = 18 * 7;
-const amountOfDaysToFill = minimumSummaryDatesSize - summaryDates.length;
+const summaryLaterDates = generateRestOfDates();
 
 type Summary = {
 	id: string;
@@ -25,16 +29,34 @@ type Summary = {
 
 const SummaryTable = (userId: any) => {
 	const [summary, setSummary] = useState<Summary>([]);
+	const [data, setData] = useState<IData>();
+
+	let { username } = useParams();
+	username = username?.split("}")[0];
 
 	useEffect(() => {
-		api.get(`/summary/${userId.userId}`).then(res => {
-			setSummary(res.data);
-		})
+		api
+			.get('/user', {
+				params: {
+					nickName: username
+				}
+			})
+			.then(res => {
+				setData(() => res.data[0]);
+			})
 	}, []);
 
+	useEffect(() => {
+		if (data) {
+			api.get(`/summary/${data!.id}`).then(res => {
+				setSummary(res.data);
+			});
+		}
+	}, [data]);
+
 	return (
-		<div className="w-full flex">
-			<div className="grid grid-rows-7 grid-flow-row gap-3">
+		<div className="w-9/12 flex">
+			<div className="grid grid-rows-7 grid-flow-row gap-3 pt-1 pb-6">
 				{weekDays.map((weekDay, i) => (
 					<div
 						key={`${weekDay}-${i}`}
@@ -45,7 +67,7 @@ const SummaryTable = (userId: any) => {
 				))}
 			</div>
 
-			<div className="grid grid-rows-7 grid-flow-col gap-3">
+			<div className="grid grid-rows-7 grid-flow-col gap-3 scrollbar scrollbar-thumb-purple-500 scrollbar-track-zinc-800 scrollbar-w-3 px-1 pt-1 pb-6">
 				{summary.length > 0 && summaryDates.map(date => {
 					const dayInSummary = summary.find(day => {
 						return dayjs(date).isSame(day.date, 'day');
@@ -62,10 +84,10 @@ const SummaryTable = (userId: any) => {
 					)
 				})}
 
-				{amountOfDaysToFill > 0 && Array.from({ length: amountOfDaysToFill }).map((_, i) => (
-					<div
+				{summaryLaterDates.map((date, i) => (
+					<EmptyDay
 						key={i}
-						className="w-10 h-10 bg-zinc-900 border-2 border-zinc-800 rounded-lg opacity-40 cursor-not-allowed"
+						date={date}
 					/>
 				))}
 			</div>

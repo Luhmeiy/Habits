@@ -57,7 +57,8 @@ In the end it worked out fine. I was able to keep up with the classes with ease 
 ## 🔍 What I Did Different
 
 - Added login page with Google and Firebase Authentication.
-- Added routing with React Router
+- Added routing with React Router.
+- Made it possible to edit user information.
 
 ---
 

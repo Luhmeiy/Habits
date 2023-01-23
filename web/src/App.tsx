@@ -16,7 +16,7 @@ function App() {
 			<Routes>
 				<Route path="/" element={<SignIn />} />
 				<Route path="/register" element={<Register />} />
-				<Route path="/user" element={<HabitsSummary />} />
+				<Route path="/user/:username" element={<HabitsSummary />} />
 			</Routes>
 		</BrowserRouter>
 	)

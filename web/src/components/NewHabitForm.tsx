@@ -10,7 +10,6 @@ import { FormEvent, useState } from "react";
 
 const availableWeekDays = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
 
-
 const NewHabitForm = (userId: any) => {
 	const [title, setTitle] = useState("");
 	const [weekDays, setWeekDays] = useState<number[]>([]);
@@ -32,7 +31,6 @@ const NewHabitForm = (userId: any) => {
 		setWeekDays([]);
 
 		alert("Hábito criado com sucesso!");
-
 	}
 
 	function handleToggleWeekDay(weekDay: number) {

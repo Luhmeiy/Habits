@@ -8,7 +8,7 @@ import dayjs from 'dayjs';
 import * as Popover from '@radix-ui/react-popover';
 
 // React
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface HabitDayProps {
 	date: Date;
@@ -19,14 +19,20 @@ interface HabitDayProps {
 
 const HabitDay = ({ date, userId, defaultCompleted = 0, amount = 0 }: HabitDayProps) => {
 	const [completed, setCompleted] = useState(defaultCompleted);
+	const [dayAndMonth, setDayAndMonth] = useState("");
+	const [dayOfWeek, setDayOfWeek] = useState("");
+	const [isCurrentDay, setIsCurrentDay] = useState<boolean | null>(null);
 
-	let completedPercentage = amount > 0 ? Math.round((completed / amount) * 100) : 0;
+	useEffect(() => {
+		setDayAndMonth(dayjs(date).format('DD/MM'));
+		setDayOfWeek(dayjs(date).format('dddd'));
+	
+		const today = dayjs().startOf('day').toDate();
+		setIsCurrentDay(dayjs(date).isSame(today));
+	
+	}, []);
 
-	const dayAndMonth = dayjs(date).format('DD/MM');
-	const dayOfWeek = dayjs(date).format('dddd');
-
-	const today = dayjs().startOf('day').toDate();
-	const isCurrentDay = dayjs(date).isSame(today);
+	const completedPercentage = amount > 0 ? Math.round((completed / amount) * 100) : 0;
 
 	function handleCompletedChanged(completed: number) {
 		setCompleted(completed);
@@ -53,11 +59,13 @@ const HabitDay = ({ date, userId, defaultCompleted = 0, amount = 0 }: HabitDayPr
 
 					<ProgressBar progress={completedPercentage} />
 
-					<HabitsList
-						date={date}
-						userId={userId}
-						onCompletedChanged={handleCompletedChanged}
-					/>
+					{userId.userId &&
+						<HabitsList
+							date={date}
+							userId={userId}
+							onCompletedChanged={handleCompletedChanged}
+						/>
+					}
 	
 					<Popover.Arrow
 						height={8}

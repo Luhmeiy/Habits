@@ -32,7 +32,7 @@ const Register = () => {
                 nickname
             });
         
-            navigate("/user", { state: { userId: userId } });
+            navigate(`/user/${nickname}`, { state: { userId: userId } });
         }
     }
 
