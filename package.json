@@ -1,0 +1,31 @@
+{
+  "name": "nlw_setup",
+  "version": "1.0.0",
+  "description": "<p align=\"center\">\r \t<img src=\"https://user-images.githubusercontent.com/51165128/213353650-6b65de6c-81d8-4d09-be26-d7af9e23841f.svg\" width=\"100\" alt=\"Logo Habits\">\r </p>",
+  "main": "index.js",
+  "scripts": {
+    "install_database": "npm --prefix ./server install ./server",
+    "install_web": "npm --prefix ./web install ./web",
+    "install_mobile": "npm --prefix ./mobile install ./mobile",
+    "install_all": "concurrently \"npm:install_database\" \"npm:install_web\" \"npm:install_mobile\"",
+
+    "database": "npm run dev --prefix ./server",
+    "web": "npm run dev --prefix ./web",
+    "start": "concurrently \"npm:database\" \"npm:web\"",
+
+    "mobile": "npm start --prefix ./mobile"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Luhmeiy/Habits.git"
+  },
+  "author": "Luhmeiy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Luhmeiy/Habits/issues"
+  },
+  "homepage": "https://github.com/Luhmeiy/Habits#readme",
+  "devDependencies": {
+    "concurrently": "^7.6.0"
+  }
+}

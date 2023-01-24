@@ -20,6 +20,7 @@
 - [🛠️ Functionalities](#%EF%B8%8F-functionalities)
 - [📚 What I Learned](#-what-i-learned)
 - [🔍 What I Did Different](#-what-i-did-different)
+- [🤔 How To Use](#-how-to-use)
 
 ## 📑 About
 
@@ -59,6 +60,35 @@ In the end it worked out fine. I was able to keep up with the classes with ease 
 - Added login page with Google and Firebase Authentication.
 - Added routing with React Router.
 - Made it possible to edit user information.
+
+## 🤔 How To Use
+```
+- Clone this repository:
+$ git clone https://github.com/Luhmeiy/Habits habits
+
+- Enter the directory:
+$ cd habits
+
+- Install dependencies:
+$ npm run install_all
+```
+
+### 💻 Web App
+```
+- Run Web App
+$ npm start
+```
+
+### 📱 Mobile App
+```
+- You will first need to install Expo Go on your smartphone. Works on both iOS and Android.
+
+- Run Mobile App
+$ npm run database
+$ npm run mobile
+
+- Then scan the QR Code on the screen.
+```
 
 ---
 
