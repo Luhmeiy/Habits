@@ -12,15 +12,15 @@ import { useNavigate, useParams } from "react-router-dom";
 import { FormEvent, useEffect, useState } from "react";
 
 interface editUserProps {
-	userId: any,
-	onIsOpen: (open: boolean) => void
+	userId: any;
+	onIsOpen: (open: boolean) => void;
+	onImage: (url: string) => void;
 }
 
-const EditUser = ({ userId, onIsOpen }: editUserProps) => {
+const EditUser = ({ userId, onIsOpen, onImage }: editUserProps) => {
 	const [data, setData] = useState<IData>();
 	const [name, setName] = useState("");
 	const [nickname, setNickname] = useState("");
-	const [image, setImage] = useState("");
 
 	let { username } = useParams();
 	username = username?.split("}")[0];
@@ -43,25 +43,29 @@ const EditUser = ({ userId, onIsOpen }: editUserProps) => {
 		if (data) {
 			setName(data.name);
 			setNickname(data.nickname);
-			setImage(data.image);
 		}
 	}, [data]);
 	
 	async function createNewUser(e: FormEvent) {
 		e.preventDefault();
 
-		await api.patch('user', {
-			name,
-			nickname,
-			image,
-			userId
-		});
+		await api
+			.patch('user', {
+				name,
+				nickname,
+				userId
+			})
+			.then(() => {
+				navigate(`/user/${nickname}%7D`, { state: { userId: userId } });
 
-		navigate(`/user/${nickname}%7D`, { state: { userId: userId } });
+				onImage(`https://api.dicebear.com/5.x/micah/svg?seed=${nickname}&flip=true&backgroundColor=A855F7`);
+				onIsOpen(false);
 
-		onIsOpen(false);
-
-		alert("Usuário editado com sucesso!");
+				alert("Usuário editado com sucesso!");
+			})
+			.catch(() => {
+				alert("Nome de usuário já está sendo utilizado!");
+			});
 	}
 
 	return (
@@ -91,17 +95,6 @@ const EditUser = ({ userId, onIsOpen }: editUserProps) => {
 						autoFocus
 						value={nickname}
 						onChange={e => setNickname(e.target.value)}
-					/>
-					
-					<label htmlFor="image" className="font-semibold leading-tight mt-4">Imagem</label>
-
-					<input
-						type="text"
-						id="image"
-						className="p-4 rounded-lg mt-3 bg-zinc-800 text-white placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-violet-700 focus:ring-offset-2 focus:ring-offset-zinc-900"
-						autoFocus
-						value={image}
-						onChange={e => setImage(e.target.value)}
 					/>
 
 					<button

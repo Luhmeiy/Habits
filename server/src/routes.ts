@@ -37,17 +37,15 @@ export async function appRoutes(app: FastifyInstance) {
 		const createUserBody = z.object({
 			id: z.any(),
 			name: z.string(),
-			image: z.string(),
 			nickname: z.string()
 		});
 
-		const { id, name, image, nickname } = createUserBody.parse(req.body);
+		const { id, name, nickname } = createUserBody.parse(req.body);
 
 		await prisma.user.create({
 			data: {
 				id,
 				name,
-				image,
 				nickname
 			}
 		})
@@ -60,24 +58,39 @@ export async function appRoutes(app: FastifyInstance) {
 
 		const { nickName } = getUserParams.parse(req.query);
 
-		const isUserCreated = await prisma.user.findMany({
+		const userData = await prisma.user.findMany({
 			where: {
 				nickname: nickName
 			}
 		});
 
-		return isUserCreated;
+		return userData;
+	});
+
+	app.get('/user_id', async (req) => {
+		const getUserParams = z.object({
+			userId: z.any()
+		});
+
+		const { userId } = getUserParams.parse(req.query);
+
+		const userData = await prisma.user.findMany({
+			where: {
+				id: userId
+			}
+		});
+
+		return userData;
 	});
 
 	app.patch('/user', async (req) => {
 		const userParams = z.object({
 			name: z.string(),
 			nickname: z.string(),
-			image: z.string(),
 			userId: z.any()
 		});
 
-		const { name, nickname, image, userId } = userParams.parse(req.body);
+		const { name, nickname, userId } = userParams.parse(req.body);
 
 		await prisma.user.update({
 			where: {
@@ -85,8 +98,7 @@ export async function appRoutes(app: FastifyInstance) {
 			},
 			data: {
 				name,
-				nickname,
-				image
+				nickname
 			},
 		});
 	});

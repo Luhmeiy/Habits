@@ -23,16 +23,20 @@ const Register = () => {
         }
 
         if (state) {
-            const { userId, username, photo } = state;
+            const { userId, username } = state;
 
-            await api.post('user', {
-                id: userId,
-                name: username,
-                image: photo,
-                nickname
-            });
-        
-            navigate(`/user/${nickname}`, { state: { userId: userId } });
+            await api
+                .post('user', {
+                    id: userId,
+                    name: username,
+                    nickname
+                })
+                .then(() => {
+                    navigate(`/user/${nickname}`, { state: { userId: userId } });
+                })
+                .catch(() => {
+                    alert("Nome de usuário já está sendo utilizado!");
+                });
         }
     }
 

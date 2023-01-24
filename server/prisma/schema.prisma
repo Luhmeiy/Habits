@@ -67,8 +67,7 @@ model DayHabit {
 model User {
     id       String @id
     name     String
-    image    String
-    nickname String
+    nickname String @unique
 
     habits Habit[]
     days   Day[]

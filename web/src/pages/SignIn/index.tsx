@@ -31,7 +31,7 @@ const SignIn = () => {
 	}
 
 	user.uid && api
-		.get('/user', {
+		.get('/user_id', {
 			params: {
 				userId: user.uid
 			}
@@ -40,7 +40,7 @@ const SignIn = () => {
 			if (res.data.length > 0) {
 				navigate(`/user/${res.data[0].nickname}}`, { state: { userId: user.uid } });
 			} else {
-				navigate("/register", { state: { userId: user.uid, username: user.displayName, photo: user.photoURL } });
+				navigate("/register", { state: { userId: user.uid, username: user.displayName } });
 			}
 		})
 

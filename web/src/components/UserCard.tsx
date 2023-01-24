@@ -14,6 +14,7 @@ import { X } from "phosphor-react";
 const UserCard = (userId: any) => {
 	const [data, setData] = useState<IData>();
 	const [isOpen, setIsOpen] = useState(false);
+	const [image, setImage] = useState("");
 
 	let { username } = useParams();
 	username = username?.split("}")[0];
@@ -30,8 +31,18 @@ const UserCard = (userId: any) => {
 			});
 	}, []);
 
+	useEffect(() => {
+		if (data) {
+			setImage(`https://api.dicebear.com/5.x/micah/svg?seed=${data.nickname}&flip=true&backgroundColor=A855F7`);
+		}
+	}, [data]);
+
 	function handleIsOpen(open: boolean) {
 		setIsOpen(open);
+	}
+
+	function handleImage(url: string) {
+		setImage(url);
 	}
 
 	return (
@@ -40,8 +51,8 @@ const UserCard = (userId: any) => {
 				<>
 					<div className="flex flex-col items-center">
 						<img
-							src={data.image}
-							alt="User photo"
+							src={image}
+							alt="User avtar"
 							className="w-36 h-36 rounded-[72px] mb-4"
 						/>
 
@@ -76,7 +87,7 @@ const UserCard = (userId: any) => {
 										Editar usuário
 									</Dialog.Title>
 
-									<EditUserForm userId={userId.userId} onIsOpen={handleIsOpen} />
+									<EditUserForm userId={userId.userId} onIsOpen={handleIsOpen} onImage={handleImage} />
 								</Dialog.Content>
 							</Dialog.Portal>
 						</Dialog.Root>
