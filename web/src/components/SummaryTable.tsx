@@ -10,7 +10,6 @@ import { IData } from "../interfaces/Data";
 //libraries
 import api from "../lib/axios";
 import dayjs from "dayjs";
-import { useParams } from "react-router-dom";
 
 // React
 import { useEffect, useState } from "react";
@@ -27,32 +26,19 @@ type Summary = {
 	completed: number;
 }[]
 
-const SummaryTable = (userId: any) => {
-	const [summary, setSummary] = useState<Summary>([]);
-	const [data, setData] = useState<IData>();
+interface SummaryTableProps {
+	userId: any;
+	userData: IData;
+}
 
-	let { username } = useParams();
-	username = username?.split("}")[0];
+const SummaryTable = ({ userId, userData }: SummaryTableProps) => {
+	const [summary, setSummary] = useState<Summary>([]);
 
 	useEffect(() => {
 		api
-			.get('/user', {
-				params: {
-					nickName: username
-				}
-			})
-			.then(res => {
-				setData(() => res.data[0]);
-			})
+			.get(`/summary/${userData.id}`)
+			.then(res => setSummary(res.data));
 	}, []);
-
-	useEffect(() => {
-		if (data) {
-			api.get(`/summary/${data!.id}`).then(res => {
-				setSummary(res.data);
-			});
-		}
-	}, [data]);
 
 	return (
 		<div className="w-9/12 flex">

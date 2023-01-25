@@ -2,40 +2,21 @@
 import EditUserForm from "./EditUserForm";
 
 // libraries
-import api from "../lib/axios";
-import { useParams } from "react-router-dom";
 import { IData } from "../interfaces/Data";
 
 // React
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import * as Dialog from '@radix-ui/react-dialog';
 import { X } from "phosphor-react";
 
-const UserCard = (userId: any) => {
-	const [data, setData] = useState<IData>();
+interface UserCardProps {
+	userId: any;
+	userData: IData;
+}
+
+const UserCard = ({ userId, userData }: UserCardProps) => {
 	const [isOpen, setIsOpen] = useState(false);
-	const [image, setImage] = useState("");
-
-	let { username } = useParams();
-	username = username?.split("}")[0];
-
-	useEffect(() => {
-		api
-			.get('/user', {
-				params: {
-					nickName: username
-				}
-			})
-			.then(res => {
-				setData(res.data[0]);
-			});
-	}, []);
-
-	useEffect(() => {
-		if (data) {
-			setImage(`https://api.dicebear.com/5.x/micah/svg?seed=${data.nickname}&flip=true&backgroundColor=A855F7`);
-		}
-	}, [data]);
+	const [image, setImage] = useState(`https://api.dicebear.com/5.x/micah/svg?seed=${userData.nickname}&flip=true&backgroundColor=A855F7`);
 
 	function handleIsOpen(open: boolean) {
 		setIsOpen(open);
@@ -47,19 +28,19 @@ const UserCard = (userId: any) => {
 
 	return (
 		<div className="w-3/12 bg-zinc-900 border-2 border-zinc-800 p-5 flex flex-col items-center justify-between rounded-lg">
-			{data &&
+			{userData &&
 				<>
 					<div className="flex flex-col items-center">
 						<img
 							src={image}
-							alt="User avtar"
+							alt="User avatar"
 							className="w-36 h-36 rounded-[72px] mb-4"
 						/>
 
-						<h1 className="font-bold text-2xl text-center">{data.name}</h1>
+						<h1 className="font-bold text-2xl text-center">{userData.name}</h1>
 					</div>
 
-					{userId.userId &&
+					{userId &&
 						<Dialog.Root open={isOpen}>
 							<Dialog.Trigger
 								type="button"
@@ -87,7 +68,7 @@ const UserCard = (userId: any) => {
 										Editar usuário
 									</Dialog.Title>
 
-									<EditUserForm userId={userId.userId} onIsOpen={handleIsOpen} onImage={handleImage} />
+									<EditUserForm userId={userId} onIsOpen={handleIsOpen} onImage={handleImage} />
 								</Dialog.Content>
 							</Dialog.Portal>
 						</Dialog.Root>

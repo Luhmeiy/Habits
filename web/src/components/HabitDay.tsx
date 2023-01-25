@@ -29,7 +29,6 @@ const HabitDay = ({ date, userId, defaultCompleted = 0, amount = 0 }: HabitDayPr
 	
 		const today = dayjs().startOf('day').toDate();
 		setIsCurrentDay(dayjs(date).isSame(today));
-	
 	}, []);
 
 	const completedPercentage = amount > 0 ? Math.round((completed / amount) * 100) : 0;
@@ -59,7 +58,7 @@ const HabitDay = ({ date, userId, defaultCompleted = 0, amount = 0 }: HabitDayPr
 
 					<ProgressBar progress={completedPercentage} />
 
-					{userId.userId &&
+					{userId &&
 						<HabitsList
 							date={date}
 							userId={userId}

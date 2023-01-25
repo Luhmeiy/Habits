@@ -32,7 +32,7 @@ const HabitsList = ({ date, userId, onCompletedChanged }: HabitsListProps) => {
 			.get('day', {
 				params: {
 					date: date.toISOString(),
-					userId: userId.userId
+					userId: userId
 				}
 			})
 			.then(res => {

@@ -4,6 +4,7 @@ import './lib/dayjs';
 
 // pages
 import HabitsSummary from './pages/HabitsSummary';
+import NotFound from './pages/NotFound';
 import Register from './pages/Register';
 import SignIn from './pages/SignIn';
 
@@ -17,6 +18,7 @@ function App() {
 				<Route path="/" element={<SignIn />} />
 				<Route path="/register" element={<Register />} />
 				<Route path="/user/:username" element={<HabitsSummary />} />
+				<Route path="*" element={<NotFound />} />
 			</Routes>
 		</BrowserRouter>
 	)
