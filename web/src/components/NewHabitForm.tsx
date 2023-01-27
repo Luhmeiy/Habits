@@ -1,36 +1,50 @@
 // icons
 import { Check } from "phosphor-react";
 
+// interfaces
+import { IUserId } from "../interfaces/UserId";
+
 // libraries
-import * as Checkbox from '@radix-ui/react-checkbox';
 import api from "../lib/axios";
+import * as Checkbox from '@radix-ui/react-checkbox';
+import { useNavigate, useParams } from "react-router-dom";
 
 // React
 import { FormEvent, useState } from "react";
 
 const availableWeekDays = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
 
-const NewHabitForm = (userId: any) => {
+const NewHabitForm = ({ userId }: IUserId) => {
 	const [title, setTitle] = useState("");
 	const [weekDays, setWeekDays] = useState<number[]>([]);
+
+	let { username } = useParams();
+	username = username?.split("}")[0];
+
+	const navigate = useNavigate();
 
 	async function createNewHabit(e: FormEvent) {
 		e.preventDefault();
 
 		if (!title || weekDays.length === 0) {
-			return;
+			return alert("Preencha o título e a recorrência!");
 		}
 
-		await api.post('habits', {
-			title,
-			weekDays,
-			userId
-		});
+		await api
+			.post('/habits', {
+				title,
+				weekDays,
+				userId
+			})
+			.then(() => {
+				setTitle('');
+				setWeekDays([]);
 
-		setTitle('');
-		setWeekDays([]);
-
-		alert("Hábito criado com sucesso!");
+				alert("Hábito criado com sucesso!");
+		
+				window.location.reload();
+			})
+			.catch(() => alert("Você já tem um hábito com esse nome!"));
 	}
 
 	function handleToggleWeekDay(weekDay: number) {
@@ -60,7 +74,7 @@ const NewHabitForm = (userId: any) => {
 				onChange={e => setTitle(e.target.value)}
 			/>
 
-			<label htmlFor="" className="font-semibold leading-tight mt-4">Qual a recorrência?</label>
+			<label className="font-semibold leading-tight mt-4">Qual a recorrência?</label>
 
 			<div className="flex flex-col gap-2 mt-3">
 				{availableWeekDays.map((weekDay, i) => {

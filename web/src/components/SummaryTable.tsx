@@ -5,7 +5,7 @@ import generateRestOfDates from "../utils/generate-rest-of-dates";
 import HabitDay from "./HabitDay";
 
 // interfaces
-import { IData } from "../interfaces/Data";
+import { IUserData } from "../interfaces/UserData";
 
 //libraries
 import api from "../lib/axios";
@@ -27,12 +27,18 @@ type Summary = {
 }[]
 
 interface SummaryTableProps {
-	userId: any;
-	userData: IData;
+	userId: string;
+	userData: IUserData;
 }
 
 const SummaryTable = ({ userId, userData }: SummaryTableProps) => {
 	const [summary, setSummary] = useState<Summary>([]);
+
+	useEffect(() => {
+		api
+			.get(`/summary/${userData.id}`)
+			.then(res => setSummary(res.data));
+	}, []);
 
 	useEffect(() => {
 		api

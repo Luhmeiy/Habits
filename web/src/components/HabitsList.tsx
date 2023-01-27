@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react';
 
 interface HabitsListProps {
 	date: Date;
-	userId: any;
+	userId: string;
 	onCompletedChanged: (completed: number) => void
 }
 
@@ -29,7 +29,7 @@ const HabitsList = ({ date, userId, onCompletedChanged }: HabitsListProps) => {
 
 	useEffect(() => {
 		api
-			.get('day', {
+			.get('/day', {
 				params: {
 					date: date.toISOString(),
 					userId: userId
@@ -41,24 +41,26 @@ const HabitsList = ({ date, userId, onCompletedChanged }: HabitsListProps) => {
 	}, []);
 
 	async function handleToggleHabit(habitId: string) {
-		await api.patch(`habits/${habitId}/toggle`);
+		await api
+			.patch(`/habits/${habitId}/toggle`)
+			.then(() => {
+				const isHabitAlreadyCompleted = habitsInfo?.completedHabits.includes(habitId);
 
-		const isHabitAlreadyCompleted = habitsInfo?.completedHabits.includes(habitId);
+				let completedHabits: string[] = []
 
-		let completedHabits: string[] = []
+				if (isHabitAlreadyCompleted) {
+					completedHabits = habitsInfo!.completedHabits.filter(id => id !== habitId);
+				} else {
+					completedHabits = [...habitsInfo!.completedHabits, habitId];
+				}
+				
+				setHabitsInfo({
+					possibleHabits: habitsInfo!.possibleHabits,
+					completedHabits
+				});
 
-		if (isHabitAlreadyCompleted) {
-			completedHabits = habitsInfo!.completedHabits.filter(id => id !== habitId);
-		} else {
-			completedHabits = [...habitsInfo!.completedHabits, habitId];
-		}
-		
-		setHabitsInfo({
-			possibleHabits: habitsInfo!.possibleHabits,
-			completedHabits
-		});
-
-		onCompletedChanged(completedHabits.length);
+				onCompletedChanged(completedHabits.length);
+			});
 	}
 
 	const isDataInPast = dayjs(date)

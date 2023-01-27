@@ -43,8 +43,8 @@ More information can be found at:
 
 ## 🛠️ Functionalities
 
-- Add and remove tasks
-- Keep track of your tasks
+- Add and remove habits
+- Keep track of your habits
 - Login with Google
 - Beautiful layout
 - Works on mobile and web
@@ -60,6 +60,7 @@ In the end it worked out fine. I was able to keep up with the classes with ease 
 - Added login page with Google and Firebase Authentication.
 - Added routing with React Router.
 - Made it possible to edit user information.
+- Made it possible to edit and delete habits.
 
 ## 🤔 How To Use
 ```

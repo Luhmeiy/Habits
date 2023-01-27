@@ -3,14 +3,18 @@ import Header from "../../components/Header";
 import SummaryTable from "../../components/SummaryTable";
 import UserCard from "../../components/UserCard";
 
+// interfaces
+import { IUserData } from "../../interfaces/UserData";
+
 // libraries
-import { Link, useLocation, useParams } from 'react-router-dom';
-import { useEffect, useState } from "react";
 import api from "../../lib/axios";
-import { IData } from "../../interfaces/Data";
+import { Link, useLocation, useParams } from 'react-router-dom';
+
+// React
+import { useEffect, useState } from "react";
 
 const HabitsSummary = () => {
-	const [data, setData] = useState<IData>();
+	const [data, setData] = useState<IUserData>();
 	const [isLoading, setIsLoading] = useState(true);
 	const [userIdHolder, setUserIdHolder] = useState("");
 

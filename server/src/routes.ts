@@ -10,7 +10,7 @@ export async function appRoutes(app: FastifyInstance) {
 			weekDays: z.array(
 				z.number().min(0).max(6)
 			),
-			userId: z.any()
+			userId: z.string()
 		});
 
 		const { title, weekDays, userId } = createHabitBody.parse(req.body);
@@ -21,7 +21,7 @@ export async function appRoutes(app: FastifyInstance) {
 			data: {
 				title,
 				created_at: today,
-				user_id: userId.userId,
+				user_id: userId,
 				weekDays: {
 					create: weekDays.map(weekDay => {
 						return {
@@ -33,9 +33,90 @@ export async function appRoutes(app: FastifyInstance) {
 		})
 	});
 
+	app.get('/habits', async (req) => {
+		const getHabitsParams = z.object({
+			userId: z.string()
+		});
+
+		const { userId } = getHabitsParams.parse(req.query);
+
+		const today = dayjs().startOf('day').toDate();
+
+		const habitsData = await prisma.habit.findMany({
+			where: {
+				user_id: userId,
+				OR: [
+					{ ended_at: { gte: today } },
+					{ ended_at: null }
+				],
+			},
+			include: {
+				weekDays: true
+			}
+		});
+
+		return habitsData;
+	});
+
+	app.get('/habits_id', async (req) => {
+		const getHabitParams = z.object({
+			id: z.any()
+		});
+
+		const { id } = getHabitParams.parse(req.query);
+
+		const habitData = await prisma.habit.findMany({
+			where: {
+				id: id
+			},
+			include: {
+				weekDays: true
+			}
+		});
+
+		return habitData;
+	});
+
+	app.patch('/habit_delete', async (req) => {
+		const habitParams = z.object({
+			habitId: z.string()
+		});
+
+		const { habitId } = habitParams.parse(req.body);
+		
+		const yesterday = dayjs().startOf('day').add(-1, 'day').toDate();
+
+		await prisma.habit.update({
+			where: {
+				id: habitId
+			},
+			data: {
+				ended_at: yesterday
+			}
+		});
+	});
+
+	app.patch('/habit_rename', async (req) => {
+		const habitParams = z.object({
+			habitId: z.string(),
+			title: z.string()
+		});
+
+		const { habitId, title } = habitParams.parse(req.body);
+
+		await prisma.habit.update({
+			where: {
+				id: habitId
+			},
+			data: {
+				title
+			}
+		});
+	})
+
 	app.post('/user', async (req) => {
 		const createUserBody = z.object({
-			id: z.any(),
+			id: z.string(),
 			name: z.string(),
 			nickname: z.string()
 		});
@@ -69,7 +150,7 @@ export async function appRoutes(app: FastifyInstance) {
 
 	app.get('/user_id', async (req) => {
 		const getUserParams = z.object({
-			userId: z.any()
+			userId: z.string()
 		});
 
 		const { userId } = getUserParams.parse(req.query);
@@ -87,7 +168,7 @@ export async function appRoutes(app: FastifyInstance) {
 		const userParams = z.object({
 			name: z.string(),
 			nickname: z.string(),
-			userId: z.any()
+			userId: z.string()
 		});
 
 		const { name, nickname, userId } = userParams.parse(req.body);
@@ -106,7 +187,7 @@ export async function appRoutes(app: FastifyInstance) {
 	app.get('/day', async (req) => {
 		const getDayParams = z.object({
 			date: z.coerce.date(),
-			userId: z.any()
+			userId: z.string()
 		});
 
 		const { date, userId } = getDayParams.parse(req.query);
@@ -120,6 +201,10 @@ export async function appRoutes(app: FastifyInstance) {
 				created_at: {
 					lte: date
 				},
+				OR: [
+					{ ended_at: { gte: date } },
+					{ ended_at: null }
+				],
 				user_id: userId,
 				weekDays: {
 					some: {
@@ -200,7 +285,7 @@ export async function appRoutes(app: FastifyInstance) {
 
 	app.get('/summary/:id', async (req) => {
 		const summaryParams = z.object({
-			id: z.any()
+			id: z.string()
 		})
 
 		const { id } = summaryParams.parse(req.params);
@@ -213,7 +298,11 @@ export async function appRoutes(app: FastifyInstance) {
 					SELECT
 						cast(count(*) as float)
 					FROM day_habits DH
-					WHERE DH.day_id = D.id
+					JOIN habits H
+						ON H.id = DH.habit_id
+					WHERE 
+						DH.day_id = D.id
+						AND H.user_id = ${id}
 				) as completed,
 				(
 					SELECT
@@ -224,10 +313,10 @@ export async function appRoutes(app: FastifyInstance) {
 					WHERE
 						HWD.week_day = cast(strftime('%w', D.date/1000, 'unixepoch') as int)
 						AND H.created_at <= D.date
+						AND (H.ended_at >= D.date OR H.ended_at IS NULL)
 						AND H.user_id = ${id}
 				) as amount
 			FROM days D
-			WHERE D.user_id = ${id}
 		`
 
 		return summary;

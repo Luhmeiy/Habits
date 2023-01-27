@@ -15,9 +15,10 @@ datasource db {
 }
 
 model Habit {
-    id         String   @id @default(uuid())
+    id         String    @id @default(uuid())
     title      String
     created_at DateTime
+    ended_at   DateTime?
     user_id    String
 
     dayHabits DayHabit[]
@@ -25,6 +26,7 @@ model Habit {
 
     user User @relation(fields: [user_id], references: [id])
 
+    @@unique([title, user_id])
     @@map("habits")
 }
 

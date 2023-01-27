@@ -12,7 +12,7 @@ import { useEffect, useState } from 'react';
 
 interface HabitDayProps {
 	date: Date;
-	userId: any;
+	userId: string;
 	defaultCompleted?: number;
 	amount?: number;
 }

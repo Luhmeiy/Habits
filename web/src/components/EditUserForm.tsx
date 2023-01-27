@@ -2,7 +2,7 @@
 import { Check } from "phosphor-react";
 
 // interfaces
-import { IData } from "../interfaces/Data";
+import { IUserData } from "../interfaces/UserData";
 
 // libraries
 import api from "../lib/axios";
@@ -12,13 +12,14 @@ import { useNavigate, useParams } from "react-router-dom";
 import { FormEvent, useEffect, useState } from "react";
 
 interface editUserProps {
-	userId: any;
+	userId: string;
 	onIsOpen: (open: boolean) => void;
 	onImage: (url: string) => void;
+	onName: (name: string) => void;
 }
 
-const EditUser = ({ userId, onIsOpen, onImage }: editUserProps) => {
-	const [data, setData] = useState<IData>();
+const EditUser = ({ userId, onIsOpen, onImage, onName }: editUserProps) => {
+	const [data, setData] = useState<IUserData>();
 	const [name, setName] = useState("");
 	const [nickname, setNickname] = useState("");
 
@@ -36,15 +37,10 @@ const EditUser = ({ userId, onIsOpen, onImage }: editUserProps) => {
 			})
 			.then(res => {
 				setData(res.data[0]);
+				setName(res.data[0].name);
+				setNickname(res.data[0].nickname);
 			});
 	}, []);
-
-	useEffect(() => {
-		if (data) {
-			setName(data.name);
-			setNickname(data.nickname);
-		}
-	}, [data]);
 	
 	async function createNewUser(e: FormEvent) {
 		e.preventDefault();
@@ -58,6 +54,7 @@ const EditUser = ({ userId, onIsOpen, onImage }: editUserProps) => {
 			.then(() => {
 				navigate(`/user/${nickname}%7D`, { state: { userId: userId } });
 
+				onName(`${name}`);
 				onImage(`https://api.dicebear.com/5.x/micah/svg?seed=${nickname}&flip=true&backgroundColor=A855F7`);
 				onIsOpen(false);
 

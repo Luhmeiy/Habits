@@ -1,22 +1,27 @@
 // components
 import EditUserForm from "./EditUserForm";
 
+// icons
+import { X } from "phosphor-react";
+
+// interfaces
+import { IUserData } from "../interfaces/UserData";
+
 // libraries
-import { IData } from "../interfaces/Data";
+import * as Dialog from '@radix-ui/react-dialog';
 
 // React
 import { useState } from "react";
-import * as Dialog from '@radix-ui/react-dialog';
-import { X } from "phosphor-react";
 
 interface UserCardProps {
-	userId: any;
-	userData: IData;
+	userId: string;
+	userData: IUserData;
 }
 
 const UserCard = ({ userId, userData }: UserCardProps) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [image, setImage] = useState(`https://api.dicebear.com/5.x/micah/svg?seed=${userData.nickname}&flip=true&backgroundColor=A855F7`);
+	const [name, setName] = useState(userData.name);
 
 	function handleIsOpen(open: boolean) {
 		setIsOpen(open);
@@ -24,6 +29,10 @@ const UserCard = ({ userId, userData }: UserCardProps) => {
 
 	function handleImage(url: string) {
 		setImage(url);
+	}
+
+	function handleName(name: string) {
+		setName(name);
 	}
 
 	return (
@@ -37,14 +46,14 @@ const UserCard = ({ userId, userData }: UserCardProps) => {
 							className="w-36 h-36 rounded-[72px] mb-4"
 						/>
 
-						<h1 className="font-bold text-2xl text-center">{userData.name}</h1>
+						<h1 className="font-bold text-2xl text-center">{name}</h1>
 					</div>
 
 					{userId &&
 						<Dialog.Root open={isOpen}>
 							<Dialog.Trigger
 								type="button"
-								className="mt-6 rounded-lg py-3 px-4 flex items-center justify-center gap-3 font-semibold bg-green-600 hover:bg-green-500 transition-colors focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2 focus:ring-offset-zinc-900"
+								className="mt-6 rounded-lg py-3 px-4 flex items-center justify-center gap-3 font-semibold bg-green-600 hover:bg-green-500 transition-colors focus:outline-none focus:ring-2 focus:ring-green-700 focus:ring-offset-2 focus:ring-offset-zinc-900"
 								onClick={() => handleIsOpen(true)}
 							>
 								Editar usuário
@@ -68,7 +77,7 @@ const UserCard = ({ userId, userData }: UserCardProps) => {
 										Editar usuário
 									</Dialog.Title>
 
-									<EditUserForm userId={userId} onIsOpen={handleIsOpen} onImage={handleImage} />
+									<EditUserForm userId={userId} onIsOpen={handleIsOpen} onImage={handleImage} onName={handleName} />
 								</Dialog.Content>
 							</Dialog.Portal>
 						</Dialog.Root>
