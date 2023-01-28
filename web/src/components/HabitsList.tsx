@@ -35,9 +35,7 @@ const HabitsList = ({ date, userId, onCompletedChanged }: HabitsListProps) => {
 					userId: userId
 				}
 			})
-			.then(res => {
-				setHabitsInfo(res.data);
-			})
+			.then(res => setHabitsInfo(res.data));
 	}, []);
 
 	async function handleToggleHabit(habitId: string) {
@@ -45,6 +43,8 @@ const HabitsList = ({ date, userId, onCompletedChanged }: HabitsListProps) => {
 			.patch(`/habits/${habitId}/toggle`)
 			.then(() => {
 				const isHabitAlreadyCompleted = habitsInfo?.completedHabits.includes(habitId);
+
+				console.log(habitsInfo)
 
 				let completedHabits: string[] = []
 

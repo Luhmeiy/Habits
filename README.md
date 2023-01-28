@@ -43,7 +43,7 @@ More information can be found at:
 
 ## 🛠️ Functionalities
 
-- Add and remove habits
+- Add, edit and remove habits
 - Keep track of your habits
 - Login with Google
 - Beautiful layout

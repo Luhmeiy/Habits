@@ -9,7 +9,7 @@ import { IUserId } from '../interfaces/UserId';
 // libraries
 import api from '../lib/axios';
 import * as Dialog from '@radix-ui/react-dialog';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 // icons / logo
 import { Plus, X } from 'phosphor-react';
@@ -20,8 +20,6 @@ import { useEffect, useState } from 'react';
 
 const Header = ({ userId }: IUserId) => {
 	const [data, setData] = useState<IUserData>();
-
-	const navigate = useNavigate();
 
 	let { username } = useParams();
 	username = username?.split("}")[0];
@@ -37,8 +35,8 @@ const Header = ({ userId }: IUserId) => {
 	}, []);
 	
 	return (
-		<div className="w-full max-w-3xl mx-auto flex items-center justify-between">
-			<img src={logoImage} alt="Habits" />
+		<div className="w-full mx-auto flex items-center justify-between">
+			<img src={logoImage} alt="Habits" className="ml-11" />
 
 			{data &&
 				<>

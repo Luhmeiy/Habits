@@ -7,7 +7,7 @@ import { IUserId } from "../interfaces/UserId";
 // libraries
 import api from "../lib/axios";
 import * as Checkbox from '@radix-ui/react-checkbox';
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 // React
 import { FormEvent, useState } from "react";
@@ -20,8 +20,6 @@ const NewHabitForm = ({ userId }: IUserId) => {
 
 	let { username } = useParams();
 	username = username?.split("}")[0];
-
-	const navigate = useNavigate();
 
 	async function createNewHabit(e: FormEvent) {
 		e.preventDefault();

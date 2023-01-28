@@ -10,10 +10,11 @@ export async function appRoutes(app: FastifyInstance) {
 			weekDays: z.array(
 				z.number().min(0).max(6)
 			),
-			userId: z.string()
+			userId: z.string(),
+			habitId: z.string()
 		});
 
-		const { title, weekDays, userId } = createHabitBody.parse(req.body);
+		const { title, weekDays, userId, habitId } = createHabitBody.parse(req.body);
 
 		const today = dayjs().startOf('day').toDate();
 
@@ -22,6 +23,7 @@ export async function appRoutes(app: FastifyInstance) {
 				title,
 				created_at: today,
 				user_id: userId,
+				group_id: habitId,
 				weekDays: {
 					create: weekDays.map(weekDay => {
 						return {
@@ -99,19 +101,35 @@ export async function appRoutes(app: FastifyInstance) {
 	app.patch('/habit_rename', async (req) => {
 		const habitParams = z.object({
 			habitId: z.string(),
-			title: z.string()
+			title: z.string(),
+			groupId: z.string().nullable()
 		});
 
-		const { habitId, title } = habitParams.parse(req.body);
+		const { habitId, title, groupId } = habitParams.parse(req.body);
 
-		await prisma.habit.update({
-			where: {
-				id: habitId
-			},
-			data: {
-				title
-			}
-		});
+		if (groupId) {
+			console.log(groupId)
+			await prisma.habit.updateMany({
+				where: {
+					OR: [
+						{ id: habitId },
+						{ id: groupId }
+					]
+				},
+				data: {
+					title
+				}
+			});
+		} else {
+			await prisma.habit.updateMany({
+				where: {
+					id: habitId
+				},
+				data: {
+					title
+				}
+			});
+		}
 	})
 
 	app.post('/user', async (req) => {
@@ -219,8 +237,20 @@ export async function appRoutes(app: FastifyInstance) {
 			where: {
 				date: parsedDate.toDate()
 			},
-			include: {
-				dayHabits: true
+			select: {
+				dayHabits: {
+					where: {
+						habit: {
+							OR: [
+								{ ended_at: { gte: date } },
+								{ ended_at: null }
+							]
+						}
+					},
+					select: {
+						habit_id: true,
+					},
+				}
 			}
 		});
 
@@ -302,6 +332,7 @@ export async function appRoutes(app: FastifyInstance) {
 						ON H.id = DH.habit_id
 					WHERE 
 						DH.day_id = D.id
+						AND (H.ended_at >= D.date OR H.ended_at IS NULL)
 						AND H.user_id = ${id}
 				) as completed,
 				(

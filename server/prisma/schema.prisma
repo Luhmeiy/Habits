@@ -17,6 +17,7 @@ datasource db {
 model Habit {
     id         String    @id @default(uuid())
     title      String
+    group_id   String?
     created_at DateTime
     ended_at   DateTime?
     user_id    String
@@ -26,7 +27,7 @@ model Habit {
 
     user User @relation(fields: [user_id], references: [id])
 
-    @@unique([title, user_id])
+    @@unique([title, user_id, ended_at])
     @@map("habits")
 }
 

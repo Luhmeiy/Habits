@@ -40,12 +40,6 @@ const SummaryTable = ({ userId, userData }: SummaryTableProps) => {
 			.then(res => setSummary(res.data));
 	}, []);
 
-	useEffect(() => {
-		api
-			.get(`/summary/${userData.id}`)
-			.then(res => setSummary(res.data));
-	}, []);
-
 	return (
 		<div className="w-9/12 flex">
 			<div className="grid grid-rows-7 grid-flow-row gap-3 pt-1 pb-6">

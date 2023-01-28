@@ -24,7 +24,7 @@ const DeleteHabit = ({ userId, habitId, onSetData }: DeleteHabitProps) => {
 		await api
 			.patch('/habit_delete', {
 				habitId: habitId
-			})
+			});
 
 		await api
 			.get('/habits', {

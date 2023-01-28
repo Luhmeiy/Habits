@@ -23,37 +23,77 @@ interface EditHabitFormProps {
 const EditHabitForm = ({ userId, habitId, onSetData }: EditHabitFormProps) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [title, setTitle] = useState("");
+	const [groupId, setGroupId] = useState("");
 	const [weekDays, setWeekDays] = useState<number[]>([]);
+	const [defaultWeekDays, setDefaultWeekDays] = useState<number[]>([]);
 
 	useEffect(() => {
-		api
-			.get('habits_id', {
-				params: {
-					id: habitId
-				}
-			})
-			.then(res => {
-				setTitle(res.data[0].title);
+		if (isOpen) {
+			api
+				.get('habits_id', {
+					params: {
+						id: habitId
+					}
+				})
+				.then(res => {
+					setTitle(res.data[0].title);
+					setGroupId(res.data[0].group_id);
 
-				res.data[0].weekDays.map((weekDay: IWeekDays) => {
-					setWeekDays(prevState => {
-						return [...prevState, weekDay.week_day]
+					res.data[0].weekDays.map((weekDay: IWeekDays) => {
+						setDefaultWeekDays(prevState => {
+							return [...prevState, weekDay.week_day];
+						});
+
+						setWeekDays(prevState => {
+							return [...prevState, weekDay.week_day];
+						});
 					});
-				});
-			})
-	}, []);
+				})
+		}
+		
+	}, [isOpen]);
+
+	function weekDaysEquals(weekDays: number[], defaultWeekDays: number[]) {
+		return Array.isArray(weekDays) &&
+			Array.isArray(defaultWeekDays) &&
+			weekDays.length === defaultWeekDays.length &&
+			weekDays.every((val, index) => val === defaultWeekDays[index]);
+	}
 
 	async function editHabit(e: FormEvent) {
 		e.preventDefault();
 
 		if (!title || weekDays.length === 0) {
-			return;
+			return alert("Preencha o título e a recorrência!");
 		}
 
 		await api
 			.patch('/habit_rename', {
 				habitId,
-				title
+				title,
+				groupId
+			})
+			.then(async () => {
+				if (!weekDaysEquals(weekDays, defaultWeekDays)) {
+					await api
+						.patch('/habit_delete', {
+							habitId: habitId
+						});
+		
+					await api
+						.post('/habits', {
+							title,
+							weekDays,
+							userId,
+							habitId
+						})
+						.then(() => {
+							setTitle('');
+							setWeekDays([]);
+					
+							window.location.reload();
+						});
+				}
 			});
 
 		await api
@@ -63,13 +103,11 @@ const EditHabitForm = ({ userId, habitId, onSetData }: EditHabitFormProps) => {
 				}
 			})
 			.then(res => onSetData(res.data))
-			.finally(() => setIsOpen(false));
-
-		// await api.post('habits', {
-		// 	title,
-		// 	weekDays,
-		// 	userId
-		// });
+			.finally(() => {
+				setWeekDays([]);
+				setDefaultWeekDays([]);
+				setIsOpen(false);
+			});
 
 		alert("Hábito editado com sucesso!");
 	}
