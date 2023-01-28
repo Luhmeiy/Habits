@@ -2,18 +2,18 @@
 import HabitsCard from './HabitsCard';
 import NewHabitForm from './NewHabitForm';
 
+// icons / logo
+import { Plus, SignOut, X } from 'phosphor-react';
+import logoImage from '../assets/logo.svg';
+
 // interfaces
 import { IUserData } from '../interfaces/UserData';
 import { IUserId } from '../interfaces/UserId';
 
 // libraries
-import api from '../lib/axios';
 import * as Dialog from '@radix-ui/react-dialog';
 import { Link, useParams } from 'react-router-dom';
-
-// icons / logo
-import { Plus, X } from 'phosphor-react';
-import logoImage from '../assets/logo.svg';
+import api from '../lib/axios';
 
 // React
 import { useEffect, useState } from 'react';
@@ -102,12 +102,18 @@ const Header = ({ userId }: IUserId) => {
 									</Dialog.Content>
 								</Dialog.Portal>
 							</Dialog.Root>
+
+							<Link to="/" className="h-[58px] w-[58px] border-2 border-zinc-400 font-semibold rounded-lg ml-5 flex items-center justify-center gap-3 text-zinc-400 hover:text-violet-500 hover:border-violet-500 transition-colors focus:outline-none focus:ring-2 focus:ring-violet-700 focus:ring-offset-2 focus:ring-offset-background">
+								<SignOut
+									size={24}
+									aria-label="Sair"
+								/>
+							</Link>
 						</div>
 						:
 						<Link to="/" className="border border-violet-500 font-semibold rounded-lg px-4 py-3 flex items-center gap-3 hover:border-violet-300 transition-colors focus:outline-none focus:ring-2 focus:ring-violet-700 focus:ring-offset-2 focus:ring-offset-background">Faça login</Link>
 					}
 				</>
-
 			}
 		</div>
 	)

@@ -5,8 +5,8 @@ import { Check } from "phosphor-react";
 import { IUserData } from "../interfaces/UserData";
 
 // libraries
-import api from "../lib/axios";
 import { useNavigate, useParams } from "react-router-dom";
+import api from "../lib/axios";
 
 // React
 import { FormEvent, useEffect, useState } from "react";
@@ -60,9 +60,7 @@ const EditUser = ({ userId, onIsOpen, onImage, onName }: editUserProps) => {
 
 				alert("Usuário editado com sucesso!");
 			})
-			.catch(() => {
-				alert("Nome de usuário já está sendo utilizado!");
-			});
+			.catch(() => alert("Nome de usuário já está sendo utilizado!"));
 	}
 
 	return (
@@ -98,7 +96,10 @@ const EditUser = ({ userId, onIsOpen, onImage, onName }: editUserProps) => {
 						type="submit"
 						className="mt-6 rounded-lg p-4 flex items-center justify-center gap-3 font-semibold bg-green-600 hover:bg-green-500 transition-colors focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2 focus:ring-offset-zinc-900"
 					>
-						<Check size={20} weight="bold" />
+						<Check
+							size={20}
+							weight="bold"
+						/>
 						Confirmar
 					</button>
 				</>

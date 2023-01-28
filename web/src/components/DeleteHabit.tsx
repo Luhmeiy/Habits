@@ -5,8 +5,8 @@ import { Check, X } from "phosphor-react";
 import { IHabitsData } from "../interfaces/HabitsData";
 
 // libraries
-import api from "../lib/axios";
 import * as Dialog from "@radix-ui/react-dialog";
+import api from "../lib/axios";
 
 // React
 import { useState } from "react";
@@ -47,7 +47,7 @@ const DeleteHabit = ({ userId, habitId, onSetData }: DeleteHabitProps) => {
 			>
 				<X
 					size={28}
-					aria-label="Fechar"
+					aria-label="Excluir"
 				/>
 			</Dialog.Trigger>
 
@@ -78,7 +78,7 @@ const DeleteHabit = ({ userId, habitId, onSetData }: DeleteHabitProps) => {
 							>
 								<Check
 									size={24}
-									aria-label="Fechar"
+									aria-label="Sim"
 								/>
 							</button>
 							
@@ -88,7 +88,7 @@ const DeleteHabit = ({ userId, habitId, onSetData }: DeleteHabitProps) => {
 							>
 								<X
 									size={24}
-									aria-label="Fechar"
+									aria-label="Não"
 								/>
 							</button>
 						</div>

@@ -3,9 +3,9 @@ import HabitsList from './HabitsList';
 import ProgressBar from './ProgressBar';
 
 // libraries
+import * as Popover from '@radix-ui/react-popover';
 import clsx from 'clsx';
 import dayjs from 'dayjs';
-import * as Popover from '@radix-ui/react-popover';
 
 // React
 import { useEffect, useState } from 'react';

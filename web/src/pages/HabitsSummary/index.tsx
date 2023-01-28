@@ -7,8 +7,8 @@ import UserCard from "../../components/UserCard";
 import { IUserData } from "../../interfaces/UserData";
 
 // libraries
-import api from "../../lib/axios";
 import { Link, useLocation, useParams } from 'react-router-dom';
+import api from "../../lib/axios";
 
 // React
 import { useEffect, useState } from "react";
@@ -35,49 +35,41 @@ const HabitsSummary = () => {
 					nickName: username
 				}
 			})
-			.then(res => {
-				setData(res.data[0]);
-			})
+			.then(res => setData(res.data[0]))
 			.catch(err => console.log(err))
-			.finally(() => {
-				setIsLoading(false);
-			});
+			.finally(() => setIsLoading(false));
 	}, []);
 
-	function renderContent() {
-		if (isLoading) {
-			return (
-				<div className="w-screen h-screen flex flex-col flex-1 justify-center items-center">
-					<span className="w-full text-center text-5xl font-semibold text-white mt-10">Carregando...</span>
-				</div>
-			);
-		}
-
+	if (isLoading) {
 		return (
-			<>
-				{data
-					?
-						<div className="w-screen h-screen flex justify-center items-center">
-							<div className="w-full max-w-5xl px-6 flex flex-col gap-16">
-								<Header userId={userIdHolder} />
-	
-								<div className="w-full flex gap-8">
-									<SummaryTable userId={userIdHolder} userData={data} />
-									<UserCard userId={userIdHolder} userData={data} />
-								</div>
-							</div>
-						</div>
-					:
-						<div className="w-screen h-screen flex flex-col flex-1 justify-center items-center">
-							<span className="w-full text-center text-6xl font-semibold text-white mt-10">Usuário não encontrado!</span>
-							<Link to="/" className="w-full text-center text-lg font-semibold text-purple-500 mt-5 hover:text-purple-400">Retornar para página inicial</Link>
-						</div>
-				}
-			</>
-		)
+			<div className="w-screen h-screen flex flex-col flex-1 justify-center items-center">
+				<span className="w-full text-center text-5xl font-semibold text-white mt-10">Carregando...</span>
+			</div>
+		);
 	}
 
-	return <> { renderContent() } </>
+	return (
+		<>
+			{data
+				?
+				<div className="w-screen h-screen flex justify-center items-center">
+					<div className="w-full max-w-5xl px-6 flex flex-col gap-16">
+						<Header userId={userIdHolder} />
+
+						<div className="w-full flex gap-8">
+							<SummaryTable userId={userIdHolder} userData={data} />
+							<UserCard userId={userIdHolder} userData={data} />
+						</div>
+					</div>
+				</div>
+				:
+				<div className="w-screen h-screen flex flex-col flex-1 justify-center items-center">
+					<span className="w-full text-center text-6xl font-semibold text-white mt-10">Usuário não encontrado!</span>
+					<Link to="/" className="w-full text-center text-lg font-semibold text-purple-500 mt-5 hover:text-purple-400">Retornar para página inicial</Link>
+				</div>
+			}
+		</>
+	)
 }
 
 export default HabitsSummary;

@@ -26,6 +26,7 @@ interface HabitsInfo {
 
 const HabitsList = ({ date, userId, onCompletedChanged }: HabitsListProps) => {
 	const [habitsInfo, setHabitsInfo] = useState<HabitsInfo>();
+	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
 		api
@@ -35,7 +36,8 @@ const HabitsList = ({ date, userId, onCompletedChanged }: HabitsListProps) => {
 					userId: userId
 				}
 			})
-			.then(res => setHabitsInfo(res.data));
+			.then(res => setHabitsInfo(res.data))
+			.finally(() => setIsLoading(false));
 	}, []);
 
 	async function handleToggleHabit(habitId: string) {
@@ -43,8 +45,6 @@ const HabitsList = ({ date, userId, onCompletedChanged }: HabitsListProps) => {
 			.patch(`/habits/${habitId}/toggle`)
 			.then(() => {
 				const isHabitAlreadyCompleted = habitsInfo?.completedHabits.includes(habitId);
-
-				console.log(habitsInfo)
 
 				let completedHabits: string[] = []
 
@@ -66,6 +66,10 @@ const HabitsList = ({ date, userId, onCompletedChanged }: HabitsListProps) => {
 	const isDataInPast = dayjs(date)
 		.endOf('day')
 		.isBefore(new Date());
+
+	if (isLoading) {
+		return <p className="font-semibold text-zinc-400 mt-6">Carregando...</p>;
+	}
 
 	return (
 		<div className="mt-6 flex flex-col gap-3">

@@ -22,12 +22,8 @@ const SignIn = () => {
 		const provider = new GoogleAuthProvider();
 
 		signInWithPopup(auth, provider)
-			.then((res) => {
-				setUser(res.user);
-			})
-			.catch((err) => {
-				console.log(err);
-			});
+			.then((res) => setUser(res.user))
+			.catch((err) => console.log(err));
 	}
 
 	user.uid && api
@@ -42,7 +38,7 @@ const SignIn = () => {
 			} else {
 				navigate("/register", { state: { userId: user.uid, username: user.displayName } });
 			}
-		})
+		});
 
 	return (
 		<div className="w-screen h-screen flex flex-col flex-1 justify-center items-center">

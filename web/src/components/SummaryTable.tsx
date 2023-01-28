@@ -7,7 +7,7 @@ import HabitDay from "./HabitDay";
 // interfaces
 import { IUserData } from "../interfaces/UserData";
 
-//libraries
+// libraries
 import api from "../lib/axios";
 import dayjs from "dayjs";
 

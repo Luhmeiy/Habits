@@ -77,7 +77,12 @@ const UserCard = ({ userId, userData }: UserCardProps) => {
 										Editar usuário
 									</Dialog.Title>
 
-									<EditUserForm userId={userId} onIsOpen={handleIsOpen} onImage={handleImage} onName={handleName} />
+									<EditUserForm
+										userId={userId}
+										onIsOpen={handleIsOpen}
+										onImage={handleImage}
+										onName={handleName}
+									/>
 								</Dialog.Content>
 							</Dialog.Portal>
 						</Dialog.Root>

@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 
 const HabitsCard = ({ userId }: IUserId) => {
 	const [data, setData] = useState<IHabitsData[]>();
+	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
 		api
@@ -22,31 +23,34 @@ const HabitsCard = ({ userId }: IUserId) => {
 					userId: userId
 				}
 			})
-			.then(res => {
-				setData(res.data);
-			})
+			.then(res => setData(res.data))
+			.finally(() => setIsLoading(false));
 	}, []);
 
 	function handleData(newData: IHabitsData[]) {
 		setData(newData);
 	}
 
+	if (isLoading) {
+		return <p className="font-semibold text-zinc-400 mt-6">Carregando...</p>;
+	}
+
 	return (
 		<div className="w-full max-h-[110em] flex flex-col mt-6 pr-5 scrollbar-thin scrollbar-thumb-purple-500 scrollbar-track-zinc-800">
 			{data && data.length != 0
 				?
-					<>
-						{data.map(habit => (
-							<div className="grid grid-cols-[1fr_repeat(2,_min-content)] items-center border-b-2 border-zinc-800 pb-2 mt-2 gap-x-2" key={habit.id}>
-								<h1 className="font-semibold leading-tight text-lg">{habit.title}</h1>
+				<>
+					{data.map(habit => (
+						<div className="grid grid-cols-[1fr_repeat(2,_min-content)] items-center border-b-2 border-zinc-800 pb-2 mt-2 gap-x-2" key={habit.id}>
+							<h1 className="font-semibold leading-tight text-lg">{habit.title}</h1>
 
-								<EditHabitForm userId={userId} habitId={habit.id} onSetData={handleData} />
-								<DeleteHabit userId={userId} habitId={habit.id} onSetData={handleData} />
-							</div>
-						))}
-					</>
+							<EditHabitForm userId={userId} habitId={habit.id} onSetData={handleData} />
+							<DeleteHabit userId={userId} habitId={habit.id} onSetData={handleData} />
+						</div>
+					))}
+				</>
 				:
-					<p className="font-semibold leading-tight text-center text-lg mt-6">Não há hábitos!</p>
+				<p className="font-semibold leading-tight text-center text-lg mt-6">Não há hábitos!</p>
 			}
 		</div>
 	)
