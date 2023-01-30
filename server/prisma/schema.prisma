@@ -43,13 +43,10 @@ model HabitWeekDays {
 }
 
 model Day {
-    id      String   @id @default(uuid())
-    date    DateTime
-    user_id String
+    id   String   @id @default(uuid())
+    date DateTime
 
     dayHabits DayHabit[]
-
-    user User @relation(fields: [user_id], references: [id])
 
     @@unique([date])
     @@map("days")
@@ -73,7 +70,6 @@ model User {
     nickname String @unique
 
     habits Habit[]
-    days   Day[]
 
     @@map("users")
 }

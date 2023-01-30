@@ -32,7 +32,8 @@ const NewHabitForm = ({ userId }: IUserId) => {
 			.post('/habits', {
 				title,
 				weekDays,
-				userId
+				userId,
+				habitId: null
 			})
 			.then(() => {
 				setTitle('');

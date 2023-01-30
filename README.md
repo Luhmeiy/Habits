@@ -57,8 +57,11 @@ In the end it worked out fine. I was able to keep up with the classes with ease 
 
 ## 🔍 What I Did Different
 
-- Added login page with Google and Firebase Authentication.
+Original project for reference: [Original project](https://github.com/rocketseat-education/nlw-setup-ignite)
+
 - Added routing with React Router.
+- Added login page with Google and Firebase Authentication.
+- Generated avatars for users with [DiceBear](https://dicebear.com/). Original avatars design was done by [Micah Lanier](https://dribbble.com/micahlanier) under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). It can be found on [Figma](https://www.figma.com/community/file/829741575478342595).
 - Made it possible to edit user information.
 - Made it possible to edit and delete habits.
 

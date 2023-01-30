@@ -11,10 +11,10 @@ export async function appRoutes(app: FastifyInstance) {
 				z.number().min(0).max(6)
 			),
 			userId: z.string(),
-			habitId: z.string()
+			habitId: z.string().nullable()
 		});
 
-		const { title, weekDays, userId, habitId } = createHabitBody.parse(req.body);
+		const { title, weekDays, userId, habitId = null } = createHabitBody.parse(req.body);
 
 		const today = dayjs().startOf('day').toDate();
 
@@ -233,7 +233,7 @@ export async function appRoutes(app: FastifyInstance) {
 		});
 
 		// Completed habits
-		const day = await prisma.day.findUnique({
+		const day = await prisma.day.findFirst({
 			where: {
 				date: parsedDate.toDate()
 			},
@@ -244,7 +244,8 @@ export async function appRoutes(app: FastifyInstance) {
 							OR: [
 								{ ended_at: { gte: date } },
 								{ ended_at: null }
-							]
+							],
+							user_id: userId
 						}
 					},
 					select: {
@@ -282,8 +283,7 @@ export async function appRoutes(app: FastifyInstance) {
 		if (!day) {
 			day = await prisma.day.create({
 				data: {
-					date: today,
-					user_id: 'rtmZ3H3KFFfWfJIvUCXYgjcjcZF2',
+					date: today
 				}
 			})
 		}
